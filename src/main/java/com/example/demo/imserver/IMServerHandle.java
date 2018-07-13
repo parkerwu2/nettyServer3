@@ -43,7 +43,7 @@ public class IMServerHandle extends SimpleChannelInboundHandler<String> {
             req = JSON.parseObject(msg, Request.class);
         } catch (Exception e){
             log.error("json转换错误={}",e.getMessage());
-            ctx.writeAndFlush("json转换错误={}" + e.getMessage());
+            ctx.writeAndFlush("json转换错误\r\n");
         }
 
         Response respon = new Response();
