@@ -11,6 +11,7 @@ import com.example.demo.biz.protocol.Response;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelId;
 import io.netty.channel.SimpleChannelInboundHandler;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetAddress;
 import java.util.Date;
@@ -19,6 +20,7 @@ import java.util.List;
 /**
  * Created by jingzhi.wu on 2018/7/13.
  */
+@Slf4j
 public class IMServerHandle extends SimpleChannelInboundHandler<String> {
     /**
      * user操作业务类
@@ -36,7 +38,14 @@ public class IMServerHandle extends SimpleChannelInboundHandler<String> {
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
         System.out.println(" get msg >> "+msg);
         //把JSON数据进行反序列化
-        Request req = JSON.parseObject(msg, Request.class);
+        Request req = null;
+        try {
+            req = JSON.parseObject(msg, Request.class);
+        } catch (Exception e){
+            log.error("json转换错误={}",e.getMessage());
+            ctx.writeAndFlush("json转换错误={}" + e.getMessage());
+        }
+
         Response respon = new Response();
         respon.setSendTime(System.currentTimeMillis());
         //判断是否是合法的请求
