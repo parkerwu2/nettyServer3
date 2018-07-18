@@ -55,6 +55,7 @@ public class IMServerHandle extends SimpleChannelInboundHandler<String> {
             if(req.getMethod() == IMProtocol.LOGIN) {
                 //获取要操作的对象
                 User user = JSON.parseObject(req.getBody(),User.class);
+                user.setUname(req.getFrom());
                 //设置返回数据的操作类型
                 respon.setMethod(IMProtocol.LOGIN);
                 //执行业务操作
