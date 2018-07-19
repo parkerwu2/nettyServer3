@@ -102,22 +102,28 @@ public class ExcelAccount {
         // 每个月开销前3的项目
         // 6个月各个项目的总开销，并且按照开销降序排列
         Map<String, BigDecimal> sum = new HashMap<>();
+        BigDecimal total = BigDecimal.ZERO;
         for (Data data : datas){
+            total = total.add(data.sum);
             data.output();
             for (Map.Entry<String, BigDecimal> entry : data.datas.entrySet()){
                 String key = entry.getKey();
+                BigDecimal value = entry.getValue();
+
                 if (sum.containsKey(key)){
-                    sum.put(key, sum.get(key).add(entry.getValue()));
+                    sum.put(key, sum.get(key).add(value));
                 } else {
-                    sum.put(key, entry.getValue());
+                    sum.put(key, value);
                 }
             }
         }
+
         List<Map.Entry<String, BigDecimal>> sumList = mapToBig(sum);
         System.out.println("*****sum result:*****");
         for (int j = 0; j < sumList.size(); j++){
             System.out.println(sumList.get(j).getKey() + ":" + sumList.get(j).getValue());
         }
+        System.out.println("*******" + month + " month cost in all is:" + total);
         System.out.println("*****sum end ********");
 
     }
