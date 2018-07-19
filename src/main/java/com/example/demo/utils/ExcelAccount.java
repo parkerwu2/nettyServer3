@@ -67,7 +67,7 @@ public class ExcelAccount {
         if (workbook != null){
             for (int sheetNum = 0; sheetNum < month; sheetNum++){
                 Data data = new Data();
-                data.month = sheetNum + 1;
+                data.month = sheetNum;
                 //获得当前sheet工作表
                 Sheet sheet = workbook.getSheetAt(sheetNum);
                 if(sheet == null){
@@ -85,13 +85,16 @@ public class ExcelAccount {
 //                    String v = value.getStringCellValue();
                     String v = getCellValueFormula(value, formulaEvaluator);
                     BigDecimal bv = BigDecimal.valueOf(Double.valueOf(v));
+                    bv = bv.setScale(2, BigDecimal.ROUND_HALF_UP);
                     data.datas.put(key.getStringCellValue(), bv);
                 }
                 // 总支出
                 Row sumrow = sheet.getRow(29);
                 Cell s = sumrow.getCell(33);
                 String sv = getCellValueFormula(s, formulaEvaluator);
-                data.sum = BigDecimal.valueOf(Double.valueOf(sv));
+                BigDecimal sb = BigDecimal.valueOf(Double.valueOf(sv));
+                sb = sb.setScale(2, BigDecimal.ROUND_HALF_UP);
+                data.sum = sb;
                 datas.add(data);
             }
         }
