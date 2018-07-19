@@ -33,13 +33,11 @@ class Data{
                 return o2.getValue().compareTo(o1.getValue());
             }
         });
-        for (int i = 0; i < firstN; i++){
-            System.out.println("month:" + (month + 1) + "'s top " + firstN + " paid are:");
-            for (int j = 0; j < list.size(); j++){
-                System.out.println(list.get(j).getKey() + ":" + list.get(j).getValue());
-            }
-            System.out.println("*********************");
+        System.out.println("month:" + (month + 1) + "'s top " + firstN + " paid are:");
+        for (int j = 0; j < firstN; j++){
+            System.out.println(list.get(j).getKey() + ":" + list.get(j).getValue());
         }
+        System.out.println("*********************");
     }
 }
 
